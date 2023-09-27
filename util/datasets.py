@@ -24,7 +24,7 @@ from lavin import Tokenizer
 import copy
 
 class ScienceQADataSet(Data.Dataset):
-    def __init__(self, args,split,model_path,max_words=512,max_image_feats=1):
+    def __init__(self, args,split, model_path, max_words=512, max_image_feats=1):
         super(ScienceQADataSet, self).__init__()
         self.args = args
         # --------------------------
@@ -34,7 +34,7 @@ class ScienceQADataSet(Data.Dataset):
         pid_splits = json.load(open(os.path.join(args.data_root, 'pid_splits.json')))
         captions = json.load(open(args.caption_file))["captions"]
         self.image_path=os.path.join(args.data_root,'images',split)
-        self.tokenizer = Tokenizer(model_path=model_path + '/tokenizer.model')
+        self.tokenizer = Tokenizer(model_path=model_path + f'/{args.llm_model}' '/tokenizer.model')
         self.max_words = max_words
         self.max_image_feats=max_image_feats
         self.split=split

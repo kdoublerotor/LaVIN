@@ -1,7 +1,9 @@
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 --master_port 11111 train.py \
+CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node 1 --master_port 11111 train.py \
     --llm_model 7B\
-    --llama_model_path ../data/weights/ \
+    --llama_model_path /mnt/nas3_rcp_enac_u0900_vita_scratch/vita-staff/users/simon/models/LaVIN/pretrained \
     --data_path ../data/alpaca_data.json \
+    --data-root /mnt/nas3_rcp_enac_u0900_vita_scratch/datasets/ScienceQA \
+    --caption_file /mnt/nas3_rcp_enac_u0900_vita_scratch/datasets/ScienceQA/captions.json \
     --max_seq_len 512 \
     --batch_size 4 \
     --accum_iter 4 \
@@ -9,7 +11,8 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 --master_port 11111 train.p
     --warmup_epochs 2 \
     --blr 9e-3 \
     --weight_decay 0.02 \
-    --output_dir ./LaVIN-7B/\
+    --output_dir /mnt/nas3_rcp_enac_u0900_vita_scratch/vita-staff/users/simon/models/LaVIN/ScienceQA/LaVIN-7B/ \
+    --log_dir /mnt/nas3_rcp_enac_u0900_vita_scratch/vita-staff/users/simon/models/LaVIN/ScienceQA/LaVIN-7B/ \
     --adapter_type attn\
     --adapter_dim 8\
     --adapter_scale 1\
@@ -18,13 +21,13 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 --master_port 11111 train.p
     --temperature 10.\
     --visual_adapter_type router
 
-CUDA_VISIBLE_DEVICES=2 torchrun --nproc_per_node 1 --master_port 11111 eval.py \
-    --ckpt_dir ../data/weights/ \
+CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node 1 --master_port 11111 eval.py \
+    --ckpt_dir /mnt/nas3_rcp_enac_u0900_vita_scratch/vita-staff/users/simon/models/LaVIN/pretrained \
     --llm_model 7B\
     --tokenizer_path ../data/weights/tokenizer.model \
-    --data_root ../data \
-    --caption_file ../data/captions.json \
-    --adapter_path ./LaVIN-7B/checkpoint-19.pth \
+    --data_root /mnt/nas3_rcp_enac_u0900_vita_scratch/datasets/ScienceQA \
+    --caption_file /mnt/nas3_rcp_enac_u0900_vita_scratch/datasets/ScienceQA/captions.json \
+    --adapter_path /mnt/nas3_rcp_enac_u0900_vita_scratch/vita-staff/users/simon/models/LaVIN/ScienceQA/LaVIN-7B/checkpoint-19.pth \
     --adapter_type attn \
     --adapter_dim 8 \
     --adapter_scale 1 \
